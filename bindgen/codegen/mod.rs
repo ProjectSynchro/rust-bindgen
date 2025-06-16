@@ -590,6 +590,7 @@ impl CodeGenerator for Module {
                 if result.saw_bitfield_unit {
                     utils::prepend_bitfield_unit_type(ctx, &mut *result);
                 }
+                utils::prepend_vector_type(&mut *result);
             }
         };
 

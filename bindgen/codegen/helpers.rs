@@ -393,3 +393,14 @@ pub(crate) mod ast_ty {
             .collect()
     }
 }
+
+pub(crate) fn prepend_vector_type(result: &mut Vec<proc_macro2::TokenStream>) {
+    let vector_type = quote! {
+        #[derive(PartialEq, Copy, Clone, Hash, Debug, Default)]
+        #[repr(C, align(8))] // Alignment will be set by codegen as needed
+        pub struct __BindgenVector<T: Copy, const N: usize>(pub [T; N]);
+    };
+    let items = vec![vector_type];
+    let old_items = std::mem::replace(result, items);
+    result.extend(old_items);
+}
